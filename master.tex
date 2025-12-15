@@ -1,0 +1,176 @@
+% REPLACE WITH YOUR MASTER RESUME
+
+
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Template for general use
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{\item\small{{#1 \vspace{-2pt}}}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Your Name} \\ \vspace{1pt}
+    \small \href{mailto:your.email@example.com}{\underline{your.email@example.com}} $|$
+    \href{https://github.com/yourusername}{\underline{github.com/yourusername}} $|$
+    \href{https://linkedin.com/in/yourprofile}{\underline{linkedin.com/in/yourprofile}} \\ \vspace{3pt}
+    \small Software Engineer · Full Stack Developer · Cloud Infrastructure
+\end{center}
+\vspace{-15pt}
+
+%-----------SKILLS-----------
+\section{Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages:} Python, JavaScript, TypeScript, Java, C++, Go, SQL \\
+     \textbf{Technologies:} React, Node.js, Docker, Kubernetes, AWS, PostgreSQL, MongoDB \\
+     \textbf{Tools:} Git, Linux, CI/CD, Terraform, REST APIs
+    }}
+ \end{itemize}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Company Name}{Month YYYY -- Month YYYY}
+      {Software Engineering Intern}{City, State}
+      \resumeItemListStart
+        \resumeItem{Developed and maintained web applications using \textbf{React} and \textbf{Node.js}, improving user experience and application performance.}
+        \resumeItem{Implemented RESTful APIs and integrated with \textbf{PostgreSQL} database, ensuring efficient data retrieval and storage.}
+        \resumeItem{Collaborated with cross-functional teams to deliver features on time and participated in code reviews to maintain code quality.}
+        \resumeItem{Utilized \textbf{Docker} for containerization and deployed applications on cloud platforms, reducing deployment time by 30\%.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Another Company}{Month YYYY -- Month YYYY}
+      {Full Stack Developer}{City, State}
+      \resumeItemListStart
+        \resumeItem{Built scalable microservices architecture using \textbf{Kubernetes} and \textbf{Docker}, improving system reliability and scalability.}
+        \resumeItem{Designed and implemented database schemas using \textbf{PostgreSQL} and optimized queries, reducing response time by 40\%.}
+        \resumeItem{Developed responsive frontend components using \textbf{React} and \textbf{TypeScript}, enhancing user interface and accessibility.}
+        \resumeItem{Implemented CI/CD pipelines using \textbf{GitHub Actions}, automating testing and deployment processes.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+  \resumeSubHeadingListStart
+
+    \resumeProjectHeading
+      {\textbf{Project Name} $|$ \emph{React, Node.js, PostgreSQL}}{Month YYYY}
+      \resumeItemListStart
+        \resumeItem{Built a full-stack web application using \textbf{React} for the frontend and \textbf{Node.js} with \textbf{Express} for the backend.}
+        \resumeItem{Implemented user authentication and authorization using JWT tokens, ensuring secure access to protected routes.}
+        \resumeItem{Designed and implemented a \textbf{PostgreSQL} database schema, optimizing queries for improved performance.}
+        \resumeItem{Deployed the application using \textbf{Docker} containers on cloud infrastructure, achieving 99.9\% uptime.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Another Project} $|$ \emph{Python, FastAPI, MongoDB}}{Month YYYY}
+      \resumeItemListStart
+        \resumeItem{Developed a RESTful API using \textbf{FastAPI} with async/await patterns, handling 1000+ requests per second.}
+        \resumeItem{Integrated with \textbf{MongoDB} for flexible document storage and implemented caching using Redis.}
+        \resumeItem{Containerized the application with \textbf{Docker} and set up CI/CD pipelines for automated testing and deployment.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Third Project} $|$ \emph{TypeScript, React, AWS}}{Month YYYY}
+      \resumeItemListStart
+        \resumeItem{Created a responsive web application using \textbf{React} and \textbf{TypeScript}, ensuring type safety and improved developer experience.}
+        \resumeItem{Deployed static assets to \textbf{AWS S3} with CloudFront CDN, reducing load times by 50\%.}
+        \resumeItem{Implemented automated testing using Jest and React Testing Library, achieving 85\% code coverage.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PUBLICATIONS-----------
+% Uncomment and fill in if you have publications
+% \section{Publications}
+%   \resumeSubHeadingListStart
+%     \resumeSubheading
+%       {Paper Title}{Month YYYY}
+%       {Research Paper}{}
+%       \resumeItemListStart
+%         \resumeItem{Description of your research contribution and findings.}
+%       \resumeItemListEnd
+%   \resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University Name}{YYYY -- YYYY}
+      {Bachelor of Science in Computer Science · GPA: X.X/4.0}{}
+      \resumeItemListStart
+        \resumeItem{Relevant coursework: Algorithms, Data Structures, Object-Oriented Programming, Databases, Software Engineering, Operating Systems, Computer Networks}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-------------------------------------------
+\end{document}
+
+«

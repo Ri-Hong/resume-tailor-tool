@@ -1,0 +1,242 @@
+---
+description: "Rules for tailoring LaTeX resumes to specific job descriptions"
+alwaysApply: true
+---
+
+# 🎯 Purpose
+
+This repository contains a **master LaTeX resume** (`master.tex`) with all experiences and projects.  
+Your task is to **automatically tailor resumes** for specific job applications by selecting and reordering content from the master resume.
+
+---
+
+## 📁 Repository Structure
+
+- `master.tex` - **Master resume** containing ALL experiences, projects, and skills (the single source of truth)
+- `resume_name.txt` - **Global resume name** (in root directory, optional, defaults to "resume")
+  - Contains a single line with the resume name (e.g., "John_Doe" or "resume")
+  - Used for all generated resume files across all jobs
+- `applications/` - Directory containing job-specific resumes
+  - Each job has its own nested subdirectory: `applications/{company}/{role}/`
+  - Contains:
+    - `job_description.txt` (original job posting, shared across all versions)
+    - `{version}/` subdirectories for each resume version:
+      - `{resume_name}.tex` (tailored resume LaTeX file)
+      - `{resume_name}.pdf` (compiled PDF, if generated)
+  - Version numbering: starts at `1` for new roles, increments for multiple resumes per role
+
+---
+
+## 🧠 Core Objectives
+
+### 1. Reference the Master Resume
+
+- **ALWAYS** read `master.tex` as the source of truth for all available experiences and projects.
+- **NEVER** add experiences, projects, or skills that don't exist in `master.tex`.
+- You can only **select, reorder, reword, or remove** content from the master.
+
+### 2. Analyze the job description
+
+- **Automatically extract** the **company name** and **role title** from the job description.
+  - If company or role cannot be clearly inferred, **ASK the user** to provide them explicitly.
+- Extract **key skills/technologies** and **primary focus areas** (e.g., backend, ML, systems, frontend, infra).
+- Create sanitized directory names:
+  - Company: lowercase, hyphens for spaces/special chars (e.g., "Meta" → "meta", "Google Cloud" → "google-cloud")
+  - Role: lowercase, hyphens for spaces/special chars (e.g., "Software Engineer" → "software-engineer")
+- **Determine version number**:
+  - Check if `applications/{company}/{role}/` directory exists
+  - If it doesn't exist, use version `1`
+  - If it exists, find the highest existing version number `n` and use version `n + 1`
+  - Create directory structure: `applications/{company}/{role}/{version}/`
+- **Determine resume file name**:
+  - Check if user specified a custom resume name in their request (e.g., "name it Ri_Hong" or "save as John_Doe")
+  - If specified, sanitize the name (replace spaces with underscores, remove special chars, keep alphanumeric and underscores/hyphens)
+  - If not specified, check if `resume_name.txt` exists in the root directory and read the name from there
+  - If neither exists, default to "resume"
+  - Save the resume name to `resume_name.txt` in the root directory (global setting for all resumes)
+- **Save the EXACT job description text** (verbatim, unmodified) to `applications/{company}/{role}/job_description.txt`.
+  - **CRITICAL**: Do NOT summarize, edit, or modify the job description text in any way.
+  - Save it exactly as the user provided it, preserving all formatting, line breaks, and content.
+  - **Note**: The job description is saved once per role (not per version) since it doesn't change across versions.
+- Compare job requirements to content available in `master.tex`.
+
+### 3. Select and adapt content
+
+- **Select** the most relevant experiences and projects from `master.tex`.
+- **Prioritize ruthlessly**: Only include the 3-4 most relevant work experiences and 2-3 most relevant projects.
+- **Reorder** sections so the most relevant appear first.
+- **Reword** bullet points to highlight relevant skills, metrics, and impact using job description keywords.
+- **Bold strategically**: Use `\textbf{}` to bold key technologies, skills, or keywords from the job description when they appear in bullet points **within experience and project sections**. This helps ATS systems and recruiters quickly identify relevant qualifications. For example:
+  - If the job emphasizes "Kubernetes" and "Terraform", bold those terms when they appear: "Engineered infrastructure with \textbf{Kubernetes} and \textbf{Terraform}"
+  - Bold programming languages, frameworks, tools, or methodologies that match the job requirements
+  - Be selective - only bold 1-3 key terms per bullet point to maintain readability
+  - Don't overuse bolding - it should enhance, not distract from the content
+  - **Important**: Do NOT bold individual tools/technologies in the skills section - only bold the category headers (e.g., `\textbf{Languages:}`, `\textbf{Technologies:}`)
+- **Limit bullet points**: Maximum 2-3 bullets per experience, 1-2 bullets per project to ensure one-page fit.
+- **Condense aggressively**: Merge multiple achievements into single bullets, use concise language, remove filler words.
+- **Remove** less relevant content entirely if needed to fit one page - it's better to have fewer, highly relevant items than to exceed one page.
+- Never add experiences that do not exist — only **select, reword, or rearrange** from master.
+
+### 4. Maintain structure and LaTeX integrity
+
+- Follow existing LaTeX macros strictly.
+- Do not break, rename, or redefine LaTeX commands or environments.
+- Preserve the header, education, and contact format.
+- Preserve macro usage such as `\resumeSubheading`, `\resumeItemListStart`, `\resumeItemListEnd`, and `\resumeItem`.
+- **Skills section formatting**: In the skills section, only the category headers (e.g., `\textbf{Languages:}`, `\textbf{Technologies:}`, `\textbf{AI/ML:}`) should be bolded. Individual tools, technologies, languages, or frameworks listed in the skills section should NOT be bolded. Only bold headers, not the actual skills/tools themselves.
+
+### 5. Keep it concise and one page - **CRITICAL REQUIREMENT**
+
+- **MANDATORY**: The final output MUST compile into **exactly one page** on US Letter paper (8.5" × 11"). This is non-negotiable.
+- **If content exceeds one page, you MUST**:
+  1. **Aggressively reduce bullet points**: Limit to 2-3 bullets per experience, 1-2 bullets per project
+  2. **Merge and condense**: Combine related achievements into single bullets using semicolons or commas
+  3. **Remove less relevant content**: Prioritize ruthlessly - remove entire experiences/projects if they're not highly relevant
+  4. **Shorten descriptions**: Use concise language, remove filler words, use abbreviations where appropriate
+  5. **Reduce spacing**: Minimize vertical spacing between sections (but maintain readability)
+  6. **Limit experiences**: Include only the 3-4 most relevant work experiences
+  7. **Limit projects**: Include only the 2-3 most relevant projects
+  8. **Condense education**: Keep education section minimal (just degree, school, dates, GPA if high)
+- **Before finalizing**: Estimate content length - if it appears it will exceed one page, proactively remove or condense content.
+- **If too short**: Include more relevant experiences/projects from master (without fabricating content), but still ensure it fits on one page.
+
+### 6. Output constraints
+
+- **Source file**: `master.tex` (read-only reference)
+- **Target files**:
+  - `applications/{company}/{role}/{version}/{resume_name}.tex` (the tailored resume for this job)
+    - Resume name is determined from user request, root `resume_name.txt` file, or defaults to "resume"
+    - Sanitize resume name: replace spaces with underscores, remove special chars (keep alphanumeric, underscores, hyphens)
+  - `applications/{company}/{role}/job_description.txt` (the EXACT, unmodified job posting text as provided by the user)
+    - **MUST be saved verbatim** - no summarization, no editing, no modification whatsoever
+    - Saved once per role (not per version) since the job description doesn't change across versions
+  - `resume_name.txt` (in root directory, optional: stores the global resume name)
+    - Contains a single line with the resume name (e.g., "John_Doe" or "resume")
+    - Used for all generated resume files across all jobs
+    - If user specifies a new name, update this global file
+- Ensure LaTeX compiles cleanly (balanced environments, no missing braces, no unmatched lists).
+- **Automatically create** the full directory structure (`applications/{company}/{role}/{version}/`) if it doesn't exist.
+- **Version management**: Always check for existing versions and increment appropriately to allow multiple resumes per role.
+- **Resume naming**: All generated files (`.tex`, `.pdf`) use the same base name as specified in `resume_name.txt` or user request.
+
+---
+
+## 🧩 Workflow
+
+1. **User provides job description** (paste the full job posting text).  
+   Optionally, user can specify a custom resume name (e.g., "name it Ri_Hong" or "save as John_Doe").
+
+   Example:
+
+```
+Software Engineering Intern at Meta
+We're looking for someone with experience in distributed systems,
+reliability engineering, Python, and Kubernetes...
+[full job description]
+
+```
+
+Or:
+
+```
+[Job description]
+
+Create a resume for this, save it as John_Doe
+```
+
+2. **Automatically extract and create**:
+
+   - Extract **company name** and **role title** from the job description
+     - If unclear, **ask the user** to provide company and role explicitly
+   - Sanitize names: lowercase, hyphens for spaces (e.g., "Meta" → "meta", "Software Engineer" → "software-engineer")
+   - Check for existing versions in `applications/{company}/{role}/`
+     - If no directory exists, use version `1`
+     - If directory exists, find highest version `n` and use version `n + 1`
+   - Create directory structure: `applications/{company}/{role}/{version}/`
+   - **Determine resume name**:
+     - Check if user specified a custom name in their request
+     - If specified, sanitize it (spaces → underscores, remove special chars) and save to root `resume_name.txt`
+     - If not specified, check root `resume_name.txt` file
+     - If neither exists, default to "resume"
+     - The resume name is global and applies to all generated resumes
+   - **Save the EXACT job description text** (verbatim, unmodified) to `applications/{company}/{role}/job_description.txt`
+     - Preserve all text exactly as the user provided it - do NOT summarize or edit
+     - Only save if the file doesn't already exist (since job description doesn't change across versions)
+
+3. **Read master.tex** to understand all available experiences and projects.
+
+4. **Tailor the resume**:
+
+   - Select most relevant experiences/projects from `master.tex` (limit to 3-4 experiences, 2-3 projects)
+   - Emphasize relevant skills and technologies from the job description
+   - Use wording that reflects job description keywords
+   - **Bold key terms**: Use `\textbf{}` to bold important technologies, languages, or tools from the job description when they appear in bullet points within experience and project sections (e.g., `\textbf{Kubernetes}`, `\textbf{Go}`, `\textbf{Terraform}`). Do NOT bold individual tools in the skills section - only bold category headers there.
+   - Move the most relevant experiences and projects to the top
+   - **Limit bullet points**: Maximum 2-3 per experience, 1-2 per project
+   - **Condense aggressively**: Merge achievements, use concise language, remove filler
+   - Keep education, awards, and contact sections minimal and concise
+   - **CRITICAL**: Ensure the final resume fits on exactly one page - remove content if necessary
+
+5. **Save files**:
+   - Save tailored resume to `applications/{company}/{role}/{version}/{resume_name}.tex`
+     - Use the resume name from root `resume_name.txt` or user request (default: "resume")
+   - If user specified a new resume name, save it to root `resume_name.txt` (global setting)
+   - **Save the EXACT job description text** (verbatim, unmodified) to `applications/{company}/{role}/job_description.txt`
+     - The job description file must contain the exact text the user pasted, with no summarization or modification
+     - Only save if the file doesn't already exist (since job description doesn't change across versions)
+
+---
+
+## ✅ Example Behavior
+
+**Input:**
+
+> Job: Backend Engineer Intern at AWS  
+> Focus: Go, Kubernetes, Terraform, Cloud Infrastructure
+
+**Expected Process:**
+
+1. Extract: Company="AWS", Role="Backend Engineer Intern" → Sanitized: `aws` / `backend-engineer-intern`
+2. Check for existing versions in `applications/aws/backend-engineer-intern/`
+   - If none exist, use version `1` → Directory: `applications/aws/backend-engineer-intern/1/`
+   - If `1` exists, use version `2` → Directory: `applications/aws/backend-engineer-intern/2/`
+3. Determine resume name (from user request, root `resume_name.txt`, or default to "resume")
+   - If user specified a new name, save it to root `resume_name.txt` (global setting)
+4. Save the EXACT job description text (verbatim, unmodified) to `applications/aws/backend-engineer-intern/job_description.txt`
+   - Only save if the file doesn't already exist (since job description doesn't change across versions)
+5. Read `master.tex` to see all available experiences and projects
+6. Select most relevant experiences/projects that match the job requirements (e.g., cloud infrastructure roles would prioritize experiences with Kubernetes, Terraform, AWS, etc.)
+7. Reorder to put cloud/infrastructure experiences first
+8. Reword bullets to emphasize "Go", "Terraform", "Kubernetes" where factually accurate
+9. **Bold key terms**: Use `\textbf{}` to bold "Go", "Kubernetes", "Terraform", and other relevant technologies when they appear in bullet points within experience and project sections (do NOT bold individual tools in the skills section)
+10. **Aggressively condense**: Limit to 2-3 bullets per experience, merge achievements, remove less relevant items entirely
+11. **Verify one-page fit**: Ensure content fits on exactly one page - merge achievements, remove less relevant items entirely if necessary to fit the 1 page limit
+12. Save tailored resume to `applications/aws/backend-engineer-intern/{version}/{resume_name}.tex`
+
+---
+
+## ⚙️ Implementation Notes
+
+- The AI acts as a **resume-tailoring assistant**.
+- The result should read naturally, emphasizing **action verbs, quantifiable results, and relevant technologies**.
+- **Strategic bolding**: Use `\textbf{}` to bold key technologies, programming languages, frameworks, or tools that match the job description **in bullet points within experience and project sections**. This helps both ATS systems and human recruiters quickly identify relevant qualifications. Be selective - bold 1-3 key terms per bullet point to maintain readability and visual balance. **Note**: This bolding rule does NOT apply to the skills section - only category headers should be bolded there, not individual tools/technologies.
+- Do not use placeholders like "X" or "Y".
+- Do not fabricate new roles, companies, or achievements.
+- Always preserve factual accuracy and a professional tone.
+- **CRITICAL**: When saving `job_description.txt`, save the EXACT text the user provided. Do NOT summarize, edit, or modify it in any way. The file should be a verbatim copy of what the user pasted.
+- **CRITICAL - ONE PAGE REQUIREMENT**: The resume MUST fit on exactly one page. If content is too long:
+  - Remove entire experiences/projects that are less relevant
+  - Limit to 2-3 bullets per experience, 1-2 per project
+  - Merge multiple achievements into single bullets
+  - Use extremely concise language
+  - Remove all non-essential information
+  - It is better to have fewer, highly relevant items than to exceed one page
+- **Resume naming**:
+  - Users can specify a custom resume name in their request (e.g., "name it John_Doe", "save as Jane_Smith")
+  - The resume name is sanitized (spaces → underscores, special chars removed)
+  - Saved to `resume_name.txt` in the **root directory** (global setting for all resumes)
+  - All generated files (`.tex`, `.pdf`) across all applications use this name as the base filename
+  - If not specified, checks root `resume_name.txt`, otherwise defaults to "resume"
+  - Users can manually edit root `resume_name.txt` to change the name globally
+
+---
