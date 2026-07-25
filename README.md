@@ -6,6 +6,7 @@ A LaTeX-based resume system that helps you maintain a master resume and automati
 
 ```
 resumes/
+├── AGENTS.md                # Codex instructions for tailoring resumes
 ├── master.tex              # Master resume with ALL experiences and projects
 ├── resume_name.txt         # Global resume name (optional, defaults to "resume")
 ├── applications/           # Job-specific resumes
@@ -92,11 +93,17 @@ The `master.tex` file is your **single source of truth**. It contains:
 
 **Important:** When adding new experiences or projects, always add them to `master.tex` first. The AI will then select from the master when tailoring for specific jobs.
 
+## 🤖 Codex Instructions (`AGENTS.md`)
+
+Codex automatically reads the root `AGENTS.md` file as the system prompt for this repository. It contains the standard resume-tailoring workflow and formatting rules previously stored in `.cursor/rules/base.mdc`.
+
+Personalized instructions belong at the bottom of `AGENTS.md`, below the `---` separator. Keep `.cursor/rules/` unchanged if backward compatibility with Cursor is needed. If you add repository-specific instruction changes, update the root `AGENTS.md`.
+
 ## 🎯 Workflow
 
 1. **Maintain Master Resume**: Keep `master.tex` updated with all your experiences
-2. **Paste Job Description**: Copy the full job posting and paste it into Cursor
-3. **AI Tailors Resume**: Cursor automatically:
+2. **Paste Job Description**: Copy the full job posting and paste it into Codex while working in this repository
+3. **AI Tailors Resume**: Codex automatically:
    - Extracts company and role (or asks if unclear)
    - Determines the next version number
    - Determines resume name from root `resume_name.txt` (or defaults to "resume" if file doesn't exist)
@@ -105,7 +112,7 @@ The `master.tex` file is your **single source of truth**. It contains:
    - Generates a tailored resume with the name from `resume_name.txt`
 4. **Compile & Submit**: Generate PDF and submit your application
 
-**Multiple Versions:** If you want multiple tailored resumes for the same role (e.g., emphasizing different skills), simply paste the job description again. Cursor will automatically create the next version number.
+**Multiple Versions:** If you want multiple tailored resumes for the same role (e.g., emphasizing different skills), simply paste the job description again. Codex will automatically create the next version number.
 
 **Custom Resume Names (Global):** Edit `resume_name.txt` in the root directory to set your desired resume filename. This name will be used for all generated resume files across all applications. You can change it anytime by editing the file.
 
@@ -134,7 +141,7 @@ This removes `.aux`, `.log`, `.out`, `.synctex.gz` files while keeping `.tex` an
 A: No, keep one `master.tex` with everything. The system is designed to select from a single source of truth.
 
 **Q: What if a job directory already exists?**  
-A: Cursor will automatically create a new version. For example, if `applications/google/software-engineer/1/` exists, it will create `applications/google/software-engineer/2/`. This allows you to have multiple tailored resumes for the same role.
+A: Codex will automatically create a new version. For example, if `applications/google/software-engineer/1/` exists, it will create `applications/google/software-engineer/2/`. This allows you to have multiple tailored resumes for the same role.
 
 ## 📄 License
 
